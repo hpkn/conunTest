@@ -1,0 +1,43 @@
+
+
+-- Teachers
+CREATE TABLE IF NOT EXISTS public.teachers
+(
+    id integer NOT NULL DEFAULT nextval('teachers_id_seq'::regclass),
+    name character(50) COLLATE pg_catalog."default",
+    password character(50) COLLATE pg_catalog."default",
+    CONSTRAINT teachers_pkey PRIMARY KEY (id)
+)
+
+--- Student
+
+CREATE TABLE IF NOT EXISTS public.students
+(
+    id integer NOT NULL DEFAULT nextval('students_id_seq'::regclass),
+    name character(100) COLLATE pg_catalog."default",
+    grade integer,
+    CONSTRAINT students_pkey PRIMARY KEY (id)
+)
+
+-- course
+CREATE TABLE IF NOT EXISTS public.course
+(
+    id integer NOT NULL DEFAULT nextval('course_id_seq'::regclass),
+    title character(50) COLLATE pg_catalog."default",
+    grade integer,
+    teacher_id integer,
+    CONSTRAINT course_pkey PRIMARY KEY (id),
+    CONSTRAINT fk_teacher_id FOREIGN KEY (teacher_id)
+        REFERENCES public.teachers (id) MATCH SIMPLE
+        ON UPDATE NO ACTION
+        ON DELETE NO ACTION
+)
+
+-- cours_detail where student apply
+CREATE TABLE IF NOT EXISTS public.cours_detail
+(
+    id integer NOT NULL DEFAULT nextval('cours_detail_id_seq'::regclass),
+    cours_id integer,
+    student_id integer,
+    CONSTRAINT cours_detail_pkey PRIMARY KEY (id)
+)
